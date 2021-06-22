@@ -1,0 +1,9 @@
+runtime: python39
+handlers:
+- url: /.*
+  script: auto
+  secure: always
+  redirect_http_response_code: 301
+manual_scaling:
+  instances: 1
+

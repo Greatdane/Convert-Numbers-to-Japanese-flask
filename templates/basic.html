@@ -1,0 +1,46 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Japanese Number Converter{% endblock %}
+{% block html_attribs %} lang="en"{% endblock %}
+
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+	<body>
+		<h1>Japanese Number Converter</h1>
+		<form method="post" id="convert_form">
+			<label for="convert">Enter a number : </label>
+			<input type="text" id="convert" name="convert_number" autofocus autocomplete="off">
+			<button>Convert</button>
+		</form>
+		<p id="converter"></p>
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+		<script>
+			$('#convert_form').on('submit', function(e){
+				var convert_number = $('#convert').val();
+				e.preventDefault();
+				$.ajax({
+					url: 'http://127.0.0.1:5000/converter/',
+					data: {'convert_number': convert_number},
+					method: 'POST',
+					success: function(data) {
+						$('#convert').val('');
+						$('#converter').html(convert_number + ' converted to a Japanese number -<br />Kanji: ' + data['kanji'] +
+						"<br />Hiragana: " + data['hiragana'] + '<br />Romanji: ' + data['romanji'])
+					}
+				});
+			});
+		</script>
+	</body>
+
+	<div class="footer">
+	  <div class="container text-center">
+	    <a href="https://github.com/Greatdane/Convert-Numbers-to-Japanese">github</a>&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+	    <a href="mailto:david@setoka.co">feedback</a>&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+	    <a href="http://setoka.co"> <img src="{{url_for('static', filename='setoka.png')}}" alt="setoka.co" style="width:45px;height:45px;" /></a>&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+	    <a href="https://www.paypal.me/setokaco">donate</a>&nbsp;&nbsp;&middot;&nbsp;&nbsp;
+	    &copy; 2018
+	  </div>
+	</div>
+</html>
+{% endblock %}
