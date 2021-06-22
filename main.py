@@ -19,6 +19,9 @@ def basic():
 @app.route('/converter/', methods=['POST'])
 def converter():
 	convert_num = str(request.form.get('convert_number', 0))
+	if convert_num == "":
+		result = {'kanji':"Please enter either Kanji or Arabic numbers", 'hiragana':"", 'romanji':""}
+		return jsonify(result)
 	if convert_num[0] in kanji_dict.values():
 		try:
 			if "点" in convert_num:
